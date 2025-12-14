@@ -1,0 +1,34 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Prevent Direct Access to Config
+<Files "config/database.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# PHP Settings
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300
+
+# Error Pages
+ErrorDocument 404 /404.php
+ErrorDocument 500 /500.php
+
+# Disable Directory Browsing
+Options -Indexes
+
+# Protect sensitive files
+<FilesMatch "\.(log|ini|conf)$">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
